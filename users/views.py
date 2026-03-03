@@ -14,11 +14,11 @@ def login_view(request):
     
     if request.method == 'POST': # si no esta autenticado, compara el usuario y el password con la bbdd y si es correcto redirecciona a dashboard
 
-        form = LoginForm(request, data-request.POST)
+        form = LoginForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            user = autheticate(usernaem-username, password-password)
+            user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
                 return redirect('dashboard')
