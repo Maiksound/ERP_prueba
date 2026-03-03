@@ -4,10 +4,13 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
 
     user_id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=128)
+    username = models.CharField(max_length=150, unique=True)
     password = models.CharField(max_length=128)
 
     USERNAME_FIELD = 'username'
+    
+
+ 
 
 
     class Meta:
@@ -29,7 +32,7 @@ class Role(models.Model):
 
     customers = models.IntegerField(choices = PERMISSION_CHOICES, default=0)
     suppliers = models.IntegerField(choices = PERMISSION_CHOICES, default=0)
-    materials = models.IntegerField(choice = PERMISSION_CHOICES, default=0)
+    materials = models.IntegerField(choices = PERMISSION_CHOICES, default=0)
     purchases = models.IntegerField(choices = PERMISSION_CHOICES, default=0)
     sales = models.IntegerField(choices = PERMISSION_CHOICES, default=0)
     inventory = models.IntegerField(choices = PERMISSION_CHOICES, default=0)
@@ -38,9 +41,9 @@ class Role(models.Model):
 
 
     class Meta:
-        db_table = 'users'
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
+        db_table = 'roles'
+        verbose_name = 'Role'
+        verbose_name_plural = 'Roles'
 
     def __str__(self):
         return self.role_name
@@ -54,7 +57,7 @@ class UserRole(models.Model):
         db_table = 'user_roles'
         verbose_name = 'User Role'
         verbose_name_plural = 'User Roles'
-        unique_together = ('user_id') # evita asignar el mismo rol dos veces al mismo usuario
+        unique_together = ('user_id', 'role') # evita asignar el mismo rol dos veces al mismo usuario
 
     def __str__(self):
         return f"{self.user_id.username} - {self.role.role_name}"

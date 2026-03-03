@@ -9,7 +9,7 @@ from users.models import UserRole
 
 def dashboard_view(request):
 
-    user_roles = UserRole.objects.filter(user_id-request.user)
+    user_roles = UserRole.objects.filter(user_id=request.user)
 
     permissions = {
         'customers': 0,
@@ -24,9 +24,9 @@ def dashboard_view(request):
 
     for user_role in user_roles:
         role = user_role.role
-        for module in permission.keys():
+        for module in permissions.keys():
             current_permission = getattr(role, module)
-            if current_permission > permission[module]:
+            if current_permission > permissions[module]:
                 permissions[module] = current_permission
 
     context = {
